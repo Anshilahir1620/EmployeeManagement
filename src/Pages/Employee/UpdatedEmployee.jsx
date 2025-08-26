@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
+import Alert from '../../common/Alert';
+
 import '../../assets/css/UpdateEmployee.css';
 
 const UpdateEmployee = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
+
   const [formData, setFormData] = useState({
     userId: '',
     name: '',
@@ -17,12 +22,20 @@ const UpdateEmployee = () => {
     role: '',
   });
 
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const hideAlert = () => {
+    setAlert({ show: false, type: 'info', message: '' });
+  };
+
   useEffect(() => {
     axios.get(`https://localhost:7204/api/Employee/${id}`)
       .then(res => setFormData(res.data))
       .catch(err => {
         console.error('Error fetching employee:', err);
-        alert('Failed to load employee');
+        showAlert('error', 'Failed to load employee data');
       });
   }, [id]);
 
@@ -34,15 +47,33 @@ const UpdateEmployee = () => {
     e.preventDefault();
     try {
       await axios.put(`https://localhost:7204/api/Employee/${id}`, formData);
-      navigate('/Layout/Employee');
+      showAlert('success', 'Employee updated successfully!');
+
+      // Navigate after short delay
+      setTimeout(() => {
+        navigate('/Pages/Employee');
+      }, 1500);
+
     } catch (err) {
       console.error('Error updating employee:', err);
-      alert('Failed to update employee');
+        console.error('Error response:', err.response?.data);
+      console.error('Error status:', err.response?.status);
+
+      showAlert('error', 'Failed to update employee');
     }
   };
 
   return (
     <MainLayout>
+      <Alert
+        show={alert.show}
+        type={alert.type}
+        message={alert.message}
+        onClose={hideAlert}
+        autoClose={true}
+        duration={4000}
+      />
+
       <div className="update-employee-container">
         <h2 className="update-employee-title">Update Employee</h2>
         <form className="update-employee-form" onSubmit={handleSubmit}>
@@ -61,7 +92,14 @@ const UpdateEmployee = () => {
           ))}
           <div className="form-actions">
             <button className="form-btn primary" type="submit">Update</button>
-            <button className="form-btn" type="button" onClick={() => navigate('/Pages/Employee/')} style={{ marginLeft: '10px' }}>Cancel</button>
+            <button
+              className="form-btn"
+              type="button"
+              onClick={() => navigate('/Pages/Employee/')}
+              style={{ marginLeft: '10px' }}
+            >
+              Cancel
+            </button>
           </div>
         </form>
       </div>

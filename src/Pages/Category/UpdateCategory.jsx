@@ -2,22 +2,34 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
+import Alert from '../../common/Alert';
 import '../../assets/css/UpdateEmployee.css';
 
 const UpdateCategory = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
+
   const [formData, setFormData] = useState({
     categoryName: '',
     description: '',
   });
+
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const hideAlert = () => {
+    setAlert({ show: false, type: 'info', message: '' });
+  };
 
   useEffect(() => {
     axios.get(`https://localhost:7204/api/Category/${id}`)
       .then(res => setFormData(res.data))
       .catch(err => {
         console.error('Error fetching category:', err);
-        alert('Failed to load category');
+        showAlert('error', 'Failed to load category');
       });
   }, [id]);
 
@@ -29,15 +41,26 @@ const UpdateCategory = () => {
     e.preventDefault();
     try {
       await axios.put(`https://localhost:7204/api/Category/${id}`, formData);
-      navigate('/Pages/Categories/');
+      showAlert('success', 'Category updated successfully!');
+      setTimeout(() => {
+        navigate('/Pages/Categories/');
+      }, 1500);
     } catch (err) {
       console.error('Failed to update category:', err);
-      alert('Failed to update category');
+      showAlert('error', 'Failed to update category');
     }
   };
 
   return (
     <MainLayout>
+      <Alert 
+        show={alert.show}
+        type={alert.type}
+        message={alert.message}
+        onClose={hideAlert}
+        autoClose={true}
+        duration={4000}
+      />
       <div className="update-employee-container">
         <h2 className="update-employee-title">Update Category</h2>
         <form className="update-employee-form" onSubmit={handleSubmit}>
@@ -72,4 +95,4 @@ const UpdateCategory = () => {
   );
 };
 
-export default UpdateCategory; 
+export default UpdateCategory;

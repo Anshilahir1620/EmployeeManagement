@@ -1,0 +1,172 @@
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  min-width: 350px;
+  max-width: 450px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-left: 4px solid;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.alert-show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  gap: 12px;
+}
+
+.alert-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.alert-message {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #9ca3af;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.alert-close:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.alert-progress {
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  animation: progress 3s linear;
+}
+
+/* Alert Types */
+.alert-success {
+  border-left-color: #10b981;
+}
+
+.alert-success .alert-icon {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.alert-success .alert-progress {
+  background: #10b981;
+}
+
+.alert-error {
+  border-left-color: #ef4444;
+}
+
+.alert-error .alert-icon {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.alert-error .alert-progress {
+  background: #ef4444;
+}
+
+.alert-warning {
+  border-left-color: #f59e0b;
+}
+
+.alert-warning .alert-icon {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.alert-warning .alert-progress {
+  background: #f59e0b;
+}
+
+.alert-info {
+  border-left-color: #3b82f6;
+}
+
+.alert-info .alert-icon {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.alert-info .alert-progress {
+  background: #3b82f6;
+}
+
+/* Progress Animation */
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .alert {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    max-width: none;
+  }
+  
+  .alert-content {
+    padding: 14px 16px;
+  }
+  
+  .alert-message {
+    font-size: 13px;
+  }
+}
+
+/* Hover Effects */
+.alert:hover {
+  transform: translateX(0) translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Multiple Alerts Stacking */
+.alert + .alert {
+  top: 80px;
+}
+
+.alert + .alert + .alert {
+  top: 140px;
+}

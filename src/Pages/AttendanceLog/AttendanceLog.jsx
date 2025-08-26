@@ -2,13 +2,22 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
+import Alert from '../../common/Alert';
 import '../../assets/css/Employee.css';
 
 const AttendanceLogList = () => {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
   const navigate = useNavigate();
+
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const hideAlert = () => {
+    setAlert({ show: false, type: 'info', message: '' });
+  };
 
   useEffect(() => {
     fetchLogs();
@@ -21,7 +30,7 @@ const AttendanceLogList = () => {
       setLoading(false);
     } catch (err) {
       console.error('Error fetching attendance logs:', err);
-      setError('Failed to fetch attendance logs');
+      showAlert('error', 'Failed to fetch attendance logs');
       setLoading(false);
     }
   };
@@ -30,21 +39,35 @@ const AttendanceLogList = () => {
     if (!window.confirm('Are you sure you want to delete this log?')) return;
     try {
       await axios.delete(`https://localhost:7204/api/AttendancelLog/${id}`);
+      showAlert('success', 'Log deleted successfully');
       fetchLogs();
     } catch (err) {
       console.error('Error deleting log:', err);
-      alert('Failed to delete log');
+      showAlert('error', 'Failed to delete log');
     }
   };
 
   if (loading) return <div>Loading attendance logs...</div>;
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
 
   return (
     <MainLayout>
+      <Alert 
+        show={alert.show}
+        type={alert.type}
+        message={alert.message}
+        onClose={hideAlert}
+        autoClose={true}
+        duration={4000}
+      />
       <div className="employee-details-container">
         <h2 className="employee-details-title">Attendance Logs</h2>
-        <button className="employee-add-btn" onClick={() => navigate('/Pages/AttendanceLog/CreateAttendanceLog')} style={{ marginBottom: '10px' }}>Add Log</button>
+        <button
+          className="employee-add-btn"
+          onClick={() => navigate('/Pages/AttendanceLog/CreateAttendanceLog')}
+          style={{ marginBottom: '10px' }}
+        >
+          Add Log
+        </button>
         <table className="employee-table">
           <thead>
             <tr>
@@ -61,7 +84,7 @@ const AttendanceLogList = () => {
           <tbody>
             {logs.length === 0 ? (
               <tr>
-                <td colSpan="5" className="employee-no-data">No logs found</td>
+                <td colSpan="8" className="employee-no-data">No logs found</td>
               </tr>
             ) : (
               logs.map(log => (
@@ -74,9 +97,19 @@ const AttendanceLogList = () => {
                   <td>{log.status}</td>
                   <td>{log.remarks}</td>
                   <td>
-                    <button className="employee-action-btn update" onClick={() => navigate(`/Pages/AttendanceLog/UpdateAttendanceLog/${log.attendanceLogId || log.attendanceLogId}`)}>Update</button>
+                    <button
+                      className="employee-action-btn update"
+                      onClick={() => navigate(`/Pages/AttendanceLog/UpdateAttendanceLog/${log.attendanceLogId}`)}
+                    >
+                      Update
+                    </button>
                     &nbsp;
-                    <button className="employee-action-btn delete" onClick={() => handleDelete(log.attendanceLogId || log.attendanceLogId)}>Delete</button>
+                    <button
+                      className="employee-action-btn delete"
+                      onClick={() => handleDelete(log.attendanceLogId)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))
@@ -88,4 +121,4 @@ const AttendanceLogList = () => {
   );
 };
 
-export default AttendanceLogList;   
+export default AttendanceLogList;

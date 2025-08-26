@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
+import Alert from '../../common/Alert';
 import '../../assets/css/UpdateEmployee.css';
 
 const UpdateHoliday = () => {
@@ -12,17 +13,28 @@ const UpdateHoliday = () => {
         date: '',
         type: ''
     });
+    const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
 
     const navigate = useNavigate();
     const { id } = useParams();
 
- 
+    const showAlert = (type, message) => {
+        setAlert({ show: true, type, message });
+    };
 
+    const hideAlert = () => {
+        setAlert({ show: false, type: 'info', message: '' });
+    };
 
     useEffect(() => {
         axios.get(`https://localhost:7204/api/Holiday/${id}`)
             .then(res => setFormData(res.data))
-            .catch(err => console.error("Failed to fetch leave data:", err));
+            .catch(err => {
+                console.error("Failed to fetch holiday data:", err);
+                cosole.error('Error response:', err.response?.data);
+                console.error('Error status:', err.response?.status);
+                showAlert('error', 'Failed to fetch holiday data');
+            });
     }, [id]);
 
     const handleChange = e => {
@@ -33,11 +45,14 @@ const UpdateHoliday = () => {
         e.preventDefault();
         try {
             const response = await axios.put(`https://localhost:7204/api/Holiday/${id}`, formData);
-            console.log('Holidays updated successfully:', response.data);
-            navigate('/Pages/Holidays');
+            console.log('Holiday updated successfully:', response.data);
+            showAlert('success', 'Holiday updated successfully!');
+            setTimeout(() => navigate('/Pages/Holidays'), 2000); // Navigate after showing alert
         } catch (err) {
-            console.error('Failed to update Leave:', err);
-            alert(`Failed to update Holiday: ${err.response?.data?.message || err.message}`);
+            console.error('Failed to update Holiday:', err);
+            console.error('Error response:', err.response?.data);
+            console.error('Error status:', err.response?.status);
+            showAlert('error', `Failed to update Holiday: ${err.response?.data?.message || err.message}`);
         }
     };
 
@@ -45,26 +60,33 @@ const UpdateHoliday = () => {
         setShowPicker(prev => !prev);
     };
 
-    const dateFields = ['startDate', 'endDate', 'appliedOn'];
+    const dateFields = ['date'];
 
     return (
         <MainLayout>
             <div className="update-employee-container">
-                <h2 className="update-employee-title">Holiday </h2>
+                <Alert
+                    show={alert.show}
+                    type={alert.type}
+                    message={alert.message}
+                    onClose={hideAlert}
+                    autoClose={true}
+                    duration={4000}
+                />
+                <h2 className="update-employee-title">Update Holiday</h2>
 
                 <form className="update-employee-form" onSubmit={handleSubmit}>
                     {['holidayName', 'date', 'type'].map(field => (
                         <div key={field} className="form-group">
                             <label className="form-label">{field}:</label>
-                                <input
-                                    className="form-input"
-                                    type={dateFields.includes(field) ? (showPicker ? "date" : "text") : "text"}
-                                    name={field}
-                                    value={formData[field]}
-                                    onChange={handleChange}
-                                    required
-                                />
-                        
+                            <input
+                                className="form-input"
+                                type={dateFields.includes(field) ? (showPicker ? "date" : "text") : "text"}
+                                name={field}
+                                value={formData[field]}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
                     ))}
 

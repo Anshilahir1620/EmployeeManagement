@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
+import Alert from '../../common/Alert';
 import '../../assets/css/UpdateEmployee.css';
 
 const UpdateLeave = () => {
@@ -16,37 +17,41 @@ const UpdateLeave = () => {
     appliedOn: '',
     approvedBy: ''
   });
+  const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
 
   const navigate = useNavigate();
   const { id } = useParams(); 
 
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
 
+  const hideAlert = () => {
+    setAlert({ show: false, type: 'info', message: '' });
+  };
 
+  // Fetch status options
+  useEffect(() => {
+    axios.get('https://localhost:7204/api/Leave/LeaveStatus')
+      .then(res => setStatusOptions(res.data))
+      .catch(err => showAlert('error', 'Failed to fetch leave status options'));
+  }, []);
 
-    useEffect(() => {
-          axios.get('https://localhost:7204/api/Leave/LeaveStatus')
-            .then(res => setStatusOptions(res.data))
-            .catch(err => console.error("Failed to fetch status options:", err));
-        }, []);
-
-
- useEffect(() => {
-  axios.get(`https://localhost:7204/api/Leave/${id}`)
-    .then(res => {
-      const data = res.data;
-
-      // format date-only fields
-      const formatDate = (val) => val ? val.split("T")[0] : "";
-
-      setFormData({
-        ...data,
-        startDate: formatDate(data.startDate),
-        endDate: formatDate(data.endDate),
-        appliedOn: formatDate(data.appliedOn),
-      });
-    })
-    .catch(err => console.error("Failed to fetch leave data:", err));
-}, [id]);
+  // Fetch leave data by ID
+  useEffect(() => {
+    axios.get(`https://localhost:7204/api/Leave/${id}`)
+      .then(res => {
+        const data = res.data;
+        const formatDate = val => val ? val.split("T")[0] : "";
+        setFormData({
+          ...data,
+          startDate: formatDate(data.startDate),
+          endDate: formatDate(data.endDate),
+          appliedOn: formatDate(data.appliedOn),
+        });
+      })
+      .catch(err => showAlert('error', 'Failed to fetch leave data'));
+  }, [id]);
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,16 +61,11 @@ const UpdateLeave = () => {
     e.preventDefault();
     try {
       const response = await axios.put(`https://localhost:7204/api/Leave/${id}`, formData);
-      console.log('Leave updated successfully:', response.data);
-      navigate('/Pages/Leaves');
+      showAlert('success', 'Leave updated successfully!');
+      setTimeout(() => navigate('/Pages/Leaves'), 2000); // Navigate after showing alert
     } catch (err) {
-      console.error('Failed to update Leave:', err);
-      alert(`Failed to update Leave: ${err.response?.data?.message || err.message}`);
+      showAlert('error', `Failed to update Leave: ${err.response?.data?.message || err.message}`);
     }
-  };
-
-  const toggleInputType = () => {
-    setShowPicker(prev => !prev);
   };
 
   const dateFields = ['startDate', 'endDate', 'appliedOn'];
@@ -73,6 +73,16 @@ const UpdateLeave = () => {
   return (
     <MainLayout>
       <div className="update-employee-container">
+        {/* Alert Box */}
+        <Alert
+          show={alert.show}
+          type={alert.type}
+          message={alert.message}
+          onClose={hideAlert}
+          autoClose={true}
+          duration={4000}
+        />
+
         <h2 className="update-employee-title">Update Leave</h2>
 
         <form className="update-employee-form" onSubmit={handleSubmit}>
@@ -90,9 +100,7 @@ const UpdateLeave = () => {
                 >
                   <option value="">Select Status</option>
                   {statusOptions.map(status => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
+                    <option key={status} value={status}>{status}</option>
                   ))}
                 </select>
               ) : (
@@ -100,7 +108,7 @@ const UpdateLeave = () => {
                   className="form-input"
                   type={dateFields.includes(field) ? (showPicker ? "date" : "text") : "text"}
                   name={field}
-                  value={formData[field]?? ""}
+                  value={formData[field] ?? ""}
                   onChange={handleChange}
                   required
                 />

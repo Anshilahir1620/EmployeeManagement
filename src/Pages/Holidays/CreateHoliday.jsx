@@ -2,26 +2,33 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
+import Alert from '../../common/Alert';
 import '../../assets/css/UpdateEmployee.css';
 
 const CreateHoliday = () => {
   const [showPicker, setShowPicker] = useState(true);
   const [statusOptions, setStatusOptions] = useState([]);
   const [formData, setFormData] = useState({
-
     holidayName: '',
     date: '',
     type: '',
   });
 
+  const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
   const navigate = useNavigate();
 
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
 
-  // ✅ Fetch status options once component mounts
+  const hideAlert = () => {
+    setAlert({ show: false, type: 'info', message: '' });
+  };
+
   useEffect(() => {
     axios.get('https://localhost:7204/api/Holiday/HolidayType')
       .then(res => setStatusOptions(res.data))
-      .catch(err => console.error("Failed to fetch status options:", err));
+      .catch(err => showAlert('error', 'Failed to fetch holiday types'));
   }, []);
 
   const handleChange = e => {
@@ -31,13 +38,12 @@ const CreateHoliday = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      console.log('Sending data:', formData);
-      const response = await axios.post('https://localhost:7204/api/Holiday', formData);
-      console.log('Success response:', response.data);
-      navigate('/Pages/Holidays/');
+      await axios.post('https://localhost:7204/api/Holiday', formData);
+      showAlert('success', 'Holiday created successfully!');
+      setTimeout(() => navigate('/Pages/Holidays'), 1500);
     } catch (err) {
       console.error('Failed to create Holiday:', err);
-      alert(`Failed to create Holiday ${err.response?.data?.message || err.message}`);
+      showAlert('error', `Failed to create Holiday: ${err.response?.data?.message || err.message}`);
     }
   };
 
@@ -45,15 +51,19 @@ const CreateHoliday = () => {
     setShowPicker(prev => !prev);
   };
 
-  const dateFields = ['date'];
-
   return (
     <MainLayout>
+      <Alert
+        show={alert.show}
+        type={alert.type}
+        message={alert.message}
+        onClose={hideAlert}
+        autoClose={true}
+        duration={4000}
+      />
       <div className="update-employee-container">
-        <h2 className="update-employee-title">ADD Holiday </h2>
-
+        <h2 className="update-employee-title">ADD Holiday</h2>
         <form className="update-employee-form" onSubmit={handleSubmit}>
-
           <div className="form-group">
             <label>Holiday Name:</label>
             <input
@@ -93,22 +103,21 @@ const CreateHoliday = () => {
                   {type}
                 </option>
               ))}
-            
             </select>
           </div>
-            <div className="form-actions">
-              <button className="form-btn primary" type="submit">Submit</button>
-              <button
-                className="form-btn"
-                type="button"
-                onClick={() => navigate('/Pages/Holidays')}
-                style={{ marginLeft: '10px' }}
-              >
-                Cancel
-              </button>
-            </div>
-        </form>
 
+          <div className="form-actions">
+            <button className="form-btn primary" type="submit">Submit</button>
+            <button
+              className="form-btn"
+              type="button"
+              onClick={() => navigate('/Pages/Holidays')}
+              style={{ marginLeft: '10px' }}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </MainLayout>
   );

@@ -113,12 +113,12 @@ export default function Sidebar({ isOpen, isMobile, onClose }) {
         {
           icon: "dashboard",
           label: "Details",
-          path: "/Pages/Leaves/",
+          path: "/Pages/Leaves",
           color: "#6366F1",
         },
          {
           icon: "dashboard",
-          label: "Add Department",
+          label: "Apply Leave",
           path: "/Pages/Leaves/CreateLeave",
           color: "#6366F1",
         }
@@ -184,7 +184,7 @@ export default function Sidebar({ isOpen, isMobile, onClose }) {
         {
           icon: "dashboard",
           label: "Details",
-          path: "/Pages/Categories/",
+          path: "/Pages/Categories",
           color: "#6366F1",
         },
          {

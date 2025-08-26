@@ -3,14 +3,26 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
 import '../../assets/css/UpdateEmployee.css';
+import Alert from '../../common/Alert';
+
 
 const CreateCategory = () => {
+        const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
+  
   const [formData, setFormData] = useState({
     categoryName: '',
     description: '',
   });
 
   const navigate = useNavigate();
+
+   const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+    const hideAlert = () => {
+    setAlert({ show: false, type: 'info', message: '' });
+  };
+
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,15 +32,27 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       await axios.post('https://localhost:7204/api/Category', formData);
-      navigate('/Pages/Categories/');
-    } catch (err) {
+ showAlert('success', 'Employee created successfully!');
+      
+      // Navigate after showing success message
+      setTimeout(() => {
+        navigate('/Pages/Employee/');
+      }, 1500);    } catch (err) {
       console.error('Failed to create category:', err);
-      alert('Failed to create category');
+      showAlert('error', errorMessage);
     }
   };
 
   return (
     <MainLayout>
+       <Alert 
+        show={alert.show}
+        type={alert.type}
+        message={alert.message}
+        onClose={hideAlert}
+        autoClose={true}
+        duration={4000}
+      />
       <div className="update-employee-container">
         <h2 className="update-employee-title">Add New Category</h2>
         <form className="update-employee-form" onSubmit={handleSubmit}>

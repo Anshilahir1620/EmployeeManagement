@@ -3,13 +3,24 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../Layout/MainLayout';
 import '../../assets/css/Employee.css';
+import Alert from '../../common/Alert';
+
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+    const [alert, setAlert] = useState({ show: false, type: 'info', message: '' });
+
   const navigate = useNavigate();
 
+    const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const hideAlert = () => {
+    setAlert({ show: false, type: 'info', message: '' });
+  };
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -23,6 +34,8 @@ const CategoryList = () => {
       console.error('Error fetching categories:', err);
       setError('Failed to fetch categories');
       setLoading(false);
+            showAlert('error', 'Failed to fetch employee data');
+
     }
   };
 
@@ -30,10 +43,14 @@ const CategoryList = () => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     try {
       await axios.delete(`https://localhost:7204/api/Category/${id}`);
+            showAlert('success', 'Employee deleted successfully!');
+
       fetchCategories();
     } catch (err) {
       console.error('Error deleting category:', err);
-      alert('Failed to delete category');
+      console.error('Error response:', err.response?.data); 
+      console.error('Error status:', err.response?.status);
+       showAlert('error', 'Failed to delete employee');
     }
   };
 
@@ -42,6 +59,14 @@ const CategoryList = () => {
 
   return (
     <MainLayout>
+         <Alert 
+        show={alert.show}
+        type={alert.type}
+        message={alert.message}
+        onClose={hideAlert}
+        autoClose={true}
+        duration={4000}
+      />
       <div className="employee-details-container">
         <h2 className="employee-details-title">Category Details</h2>
         <button className="employee-add-btn" onClick={() => navigate('/Pages/Category/CreateCategory')} style={{ marginBottom: '10px' }}>Add Category</button>
