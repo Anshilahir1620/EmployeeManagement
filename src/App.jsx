@@ -1,117 +1,129 @@
-// App.js
 import React from "react";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
-import Dashboard from './Pages/Dashboard';
-import MainLayout from "./Layout/MainLayout";
-import CreateEmployee from "./Pages/Employee/CreateEmployee";
-import UpdateEmployee from "./Pages/Employee/UpdatedEmployee";
-import DepartmentDetail from "./Pages/Department/Department";
-import CreateDepartment from "./Pages/Department/CreateDepartment";
-import UpdateDepartment from "./Pages/Department/UpdateDepartment";
-import CreateLeave from "./Pages/Leaves/CreateLeave";
-import UpdateLeave from "./Pages/Leaves/UpdateLeave";
-import HolidayDetail from "./Pages/Holidays/Holiday";
-import CreateHoliday from "./Pages/Holidays/CreateHoliday";
-import UpdateHoliday from "./Pages/Holidays/UpdateHoliday";
-import AttendanceLogList from "./Pages/AttendanceLog/AttendanceLog";
-import CreateAttendanceLog from "./Pages/AttendanceLog/CreateAttendanceLog";
-import UpdateAttendanceLog from "./Pages/AttendanceLog/UpdateAttendanceLog";
-import CreateCategory from "./Pages/Category/CreateCategory";
-import UpdateCategory from "./Pages/Category/UpdateCategory";
-import CategoryList from "./Pages/Category/Category";
-import Login from './Pages/Auth/Login';
-import RequireAuth from './common/RequireAuth.jsx';
-import EmployeeDetailContent from "./Pages/Employee/Employee";
-import LeaveDetailContent from "./Pages/Leaves/LeavesDetails";
+import { Routes, Route, Navigate } from "react-router-dom";
 
+import Dashboard from "./Admin/Pages/Dashboard.jsx";
+import EmployeeDetailContent from "./Admin/Pages/Employee/Employee.jsx";
+import CreateEmployee from "./Admin/Pages/Employee/CreateEmployee.jsx";
+import UpdateEmployee from "./Admin/Pages/Employee/UpdatedEmployee";
+import DepartmentDetail from "./Admin/Pages/Department/Department";
+import CreateDepartment from "./Admin/Pages/Department/CreateDepartment";
+import UpdateDepartment from "./Admin/Pages/Department/UpdateDepartment";
+import LeaveDetailContent from "./Admin/Pages/Leaves/LeavesDetails.jsx";
+import CreateLeave from "./Admin/Pages/Leaves/CreateLeave";
+import UpdateLeave from "./Admin/Pages/Leaves/UpdateLeave";
+import HolidayDetail from "./Admin/Pages/Holidays/Holiday";
+import CreateHoliday from "./Admin/Pages/Holidays/CreateHoliday";
+import UpdateHoliday from "./Admin/Pages/Holidays/UpdateHoliday";
+import AttendanceLogList from "./Admin/Pages/AttendanceLog/AttendanceLog";
+import CreateAttendanceLog from "./Admin/Pages/AttendanceLog/CreateAttendanceLog";
+import UpdateAttendanceLog from "./Admin/Pages/AttendanceLog/UpdateAttendanceLog";
+import CategoryList from "./Admin/Pages/Category/Category";
+import CreateCategory from "./Admin/Pages/Category/CreateCategory";
+import UpdateCategory from "./Admin/Pages/Category/UpdateCategory";
+import ProfileEditForm from "./Admin/Layout/ChangeProfile.jsx";
+import Login from "./login/Login.jsx";
+import RequireAuth from "./Admin/common/RequreAuth.jsx";
+import MainLayout from "./Admin/Layout/MainLayout.jsx"; // You need this component
+import { isAuthenticated } from "./Admin/common/Auth";
 
 export default function App() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
-    <BrowserRouter>
-      <Routes >
+    <Routes>
+      {/* Default redirect based on role */}
+      <Route
+        path="/"
+        element={
+          isAuthenticated() ? (
+            user?.role?.toLowerCase() === "admin" ? (
+              <Navigate to="/admin" replace />
+            ) : (
+              <Navigate to="/employee" replace />
+            )
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
 
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-        <Route
-          path="/"
-          element={<RequireAuth><MainLayout /></RequireAuth>
-      
-          }
-        />
-         <Route
-          path="/Pages/Employee"
-          element={<RequireAuth><EmployeeDetailContent /></RequireAuth>
+      {/* Login page - outside of layout */}
+      <Route path="/login" element={<Login />} />
 
-          }
-        />
-        <Route path="/Pages/Employee/CreateEmployee" element={<RequireAuth><CreateEmployee /></RequireAuth>} />
-        <Route path="/Pages/UpdatedEmployee/:id" element={<RequireAuth><UpdateEmployee /></RequireAuth>} />
+      {/* Admin routes with MainLayout wrapper */}
+      <Route
+        path="/admin/*"
+        element={
+          <RequireAuth role="admin">
+            <MainLayout>
+              <Routes>
+                <Route index element={<Dashboard />} />
+                
+                {/* Employee routes */}
+                <Route path="employees" element={<EmployeeDetailContent />} />
+                <Route path="employees/create" element={<CreateEmployee />} />
+                <Route path="employees/:id" element={<UpdateEmployee />} />
 
+                {/* Department routes */}
+                <Route path="departments" element={<DepartmentDetail />} />
+                <Route path="departments/create" element={<CreateDepartment />} />
+                <Route path="departments/:id" element={<UpdateDepartment />} />
 
-        // DEPARTMENT ROUTE
-        <Route
-          path="/Pages/Department"
-          element={<RequireAuth>< DepartmentDetail /></RequireAuth>
-          }
-        />
-        // Update route
-        <Route path="/Pages/Department/CreateDepartment" element={<RequireAuth><CreateDepartment /></RequireAuth>} />
-        <Route path="/Pages/Department/UpdateDepartment/:id" element={<RequireAuth><UpdateDepartment /></RequireAuth>} />
+                {/* Leave routes */}
+                <Route path="leaves" element={<LeaveDetailContent />} />
+                <Route path="leaves/create" element={<CreateLeave />} />
+                <Route path="leaves/:id" element={<UpdateLeave />} />
 
+                {/* Holiday routes */}
+                <Route path="holidays" element={<HolidayDetail />} />
+                <Route path="holidays/create" element={<CreateHoliday />} />
+                <Route path="holidays/:id" element={<UpdateHoliday />} />
 
+                {/* Attendance Log routes */}
+                <Route path="attendance-log" element={<AttendanceLogList />} />
+                <Route path="attendance-log/create" element={<CreateAttendanceLog />} />
+                <Route path="attendance-log/:id" element={<UpdateAttendanceLog />} />
 
-          // leave Route
+                {/* Category routes */}
+                <Route path="categories" element={<CategoryList />} />
+                <Route path="categories/create" element={<CreateCategory />} />
+                <Route path="categories/:id" element={<UpdateCategory />} />
+              </Routes>
+            </MainLayout>
+          </RequireAuth>
+        }
+      />
 
-        <Route
-          path="/Pages/Leaves"
-          element={<RequireAuth><LeaveDetailContent /></RequireAuth>}
+      {/* Profile route - separate as it might need different layout */}
+      <Route
+        path="/change-profile"
+        element={
+          <RequireAuth role="admin">
+            <MainLayout>
+              <ProfileEditForm />
+            </MainLayout>
+          </RequireAuth>
+        }
+      />
 
-        />
-        <Route path="/Pages/Leaves/CreateLeave" element={<RequireAuth><CreateLeave /></RequireAuth>} />
-        <Route path="/Pages/Leaves/UpdateLeave/:id" element={<RequireAuth><UpdateLeave /></RequireAuth>} />
+      {/* Employee routes - uncomment when ready */}
+      {/* 
+      <Route
+        path="/employee/*"
+        element={
+          <RequireAuth role="employee">
+            <EmployeeLayout>
+              <Routes>
+                <Route index element={<UserDashboard />} />
+              </Routes>
+            </EmployeeLayout>
+          </RequireAuth>
+        }
+      />
+      */}
 
-
-
-
-// holiday
-        <Route
-          path="/Pages/Holidays/"
-          element={<RequireAuth><HolidayDetail /></RequireAuth>}
-
-        />
-
-        <Route path="/Pages/Holidays/Insert" element={<RequireAuth><CreateHoliday /></RequireAuth>} />
-        <Route path="/Pages/Holidays/UpdateHoliday/:id" element={<RequireAuth><UpdateHoliday /></RequireAuth>} />
-
-// Attendance Log
-        <Route
-          path="/Pages/AttendanceLog"
-          element={<RequireAuth><AttendanceLogList /></RequireAuth>}
-        />
-        <Route path="/Pages/AttendanceLog/CreateAttendanceLog" element={<RequireAuth><CreateAttendanceLog/></RequireAuth>} />
-        <Route path="/Pages/AttendanceLog/UpdateAttendanceLog/:id" element={<RequireAuth><UpdateAttendanceLog /></RequireAuth>} />
-
-       //Categories
-        <Route
-          path="/Pages/Categories"
-          element={<RequireAuth><CategoryList /></RequireAuth>}
-        />
-        <Route path="/Pages/Category/CreateCategory" element={<RequireAuth><CreateCategory /></RequireAuth>} />
-        <Route path="/Pages/Category/UpdateCategory/:id" element={<RequireAuth><UpdateCategory /></RequireAuth>} />
-
-
-
-      </Routes>
- 
-
-
-
-    </BrowserRouter>
-
+      {/* Fallback for unmatched routes */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
-
-// Component to handle root route redirection
-

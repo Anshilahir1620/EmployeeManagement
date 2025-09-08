@@ -1,0 +1,295 @@
+/* === Profile Edit Container === */
+.profile-edit-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/* === Profile Edit Card === */
+.profile-edit-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(240, 3, 3, 0.1);
+  width: 100%;
+
+  overflow: hidden;
+}
+
+/* === Card Header === */
+.card-header {
+  background:  #da1010;
+  color: white;
+  padding: 2.5rem 3rem;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.card-subtitle {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+/* === Profile Form === */
+.profile-form {
+  padding: 3rem;
+}
+
+/* === Form Content === */
+.form-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+/* === Form Section === */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* === Form Row === */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* === Form Group === */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Form Label === */
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* === Form Input === */
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #bdc3c7;
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #db3434;
+  box-shadow: 0 0 0 3px rgba(255, 4, 4, 0.15);
+  background-color: #ffffff;
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+/* === Profile Image Section === */
+.profile-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* === Image Upload Container === */
+.image-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* === Image Preview === */
+.image-preview {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #bdc3c7;
+  background-color: #ecf0f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.image-preview:hover {
+  border-color: #db3434;
+  transform: scale(1.05);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* === Default Avatar === */
+.default-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #ecf0f1;
+}
+
+/* === Upload Button === */
+.upload-button {
+  background: #e51717;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: inline-block;
+}
+
+.upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(232, 8, 8, 0.4);
+}
+
+/* === Upload Hint === */
+.upload-hint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+  text-align: center;
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+/* === Form Actions === */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid #bdc3c7;
+}
+
+/* === Buttons === */
+.btn {
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.btn-secondary {
+  background-color: #ecf0f1;
+  color: #ff0000;
+  border: 2px solid #bdc3c7;
+}
+
+.btn-secondary:hover {
+  background-color: #bdc3c7;
+  border-color: #95a5a6;
+}
+
+.btn-primary {
+  background:  #f01919;
+  color: white;
+  box-shadow: 0 4px 15px rgba(253, 2, 2, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(247, 8, 8, 0.5);
+}
+
+/* === Responsive Design === */
+@media (max-width: 1024px) {
+  .form-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .profile-image-section {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-edit-container {
+    padding: 1rem;
+  }
+  
+  .profile-edit-card {
+    border-radius: 16px;
+  }
+  
+  .card-header {
+    padding: 2rem 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 2rem;
+  }
+  
+  .profile-form {
+    padding: 2rem 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .profile-form {
+    padding: 1.5rem 1rem;
+  }
+  
+  .image-preview {
+    width: 120px;
+    height: 120px;
+  }
+}

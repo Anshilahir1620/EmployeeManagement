@@ -1,0 +1,312 @@
+/* Dashboard Container */
+.dashboard-container {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+
+/* Top Cards */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.metrics-grid {
+  margin-bottom: 16px;
+  
+}
+
+.metrics-scroll-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-card {
+  justify-content: center;
+  align-items: center;
+  height: 75px;
+  cursor: pointer;
+  border: 2px solid rgb(196, 192, 192);
+  background-color: white;
+  padding: 20px 8px 5px 14px;
+}
+
+.metric-header {
+    justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.metric-info {
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  
+}
+
+.metric-label {
+  font-size: 12px !important;
+  color: #64748b !important;
+  font-weight: 500 !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.metric-value {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin: 0 0 2px 0 !important;
+  line-height: 1.2 !important;
+}
+
+.metric-change {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: #059669 !important;
+  margin: 0 !important;
+}
+
+.metric-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.users-icon {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.workouts-icon {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.meals-icon {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.revenue-icon {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+
+
+
+
+/* Charts */
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding:  25px;
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(255,255,255,0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* .chart-card:hover::before {
+  opacity: 1;
+} */
+
+
+
+.chart-card h4 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3748;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Recent Activity Table */
+.activity-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(255,255,255,0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.activity-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+
+.activity-card h4 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3748;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.activity-card table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 2;
+}
+
+.activity-card th, .activity-card td {
+  padding: 16px 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.activity-card th {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  color: #4a5568;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activity-card tbody tr {
+  background: rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
+}
+
+.activity-card tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.5);
+}
+
+.activity-card tbody tr:hover {
+  background: rgba(102, 126, 234, 0.1);
+  cursor: pointer;
+  transform: scale(1.01);
+}
+
+.activity-card tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 20px;
+    gap: 25px;
+  }
+  
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .charts-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .card {
+    min-height: 120px;
+    padding: 20px 25px;
+  }
+  
+  .card p {
+    font-size: 28px;
+  }
+  
+  .card-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 15px;
+  }
+  
+  .card {
+    padding: 15px 20px;
+    min-height: 100px;
+  }
+  
+  .card h3 {
+    font-size: 12px;
+  }
+  
+  .card p {
+    font-size: 24px;
+  }
+  
+  .card-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  
+  .chart-card, .activity-card {
+    padding: 20px 15px;
+  }
+}

@@ -1,0 +1,170 @@
+.employee-details-container {
+  max-width: 1250px;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(220, 38, 38, 0.08), 0 1.5px 4px rgba(0,0,0,0.04);
+  padding: 32px 28px 24px 28px;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.employee-details-title {
+  text-align: center;
+  color: #c00000;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+
+.employee-add-btn {
+  display: block;
+  margin: 0 0 18px auto;
+  padding: 10px 24px;
+  background: linear-gradient(90deg, #c00000 60%, #e63946 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.employee-add-btn:hover {
+  background: linear-gradient(90deg, #a30000 60%, #c00000 100%);
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.04);
+}
+
+.employee-table th, .employee-table td {
+  padding: 12px 6px;
+  text-align: left;
+}
+
+.employee-table th {
+  background: #f8d7da;
+  color: #c00000;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.employee-row:nth-child(even) {
+  background: #f9fafb;
+}
+
+.employee-row:hover {
+  background: #ffe5e5;
+  transition: background 0.2s;
+}
+
+.employee-no-data {
+  text-align: center;
+  color: #c00000;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 24px 0;
+}
+
+.employee-action-btn {
+  padding: 0;
+  width: 100px;
+  height: 38px;
+  border: none;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0 2px;
+  transition: background 0.2s, color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.employee-action-btn.update {
+  background: #e2e8f0;
+  color: #c00000;
+}
+.employee-action-btn.update:hover {
+  background: #c00000;
+  color: #fff;
+}
+.employee-action-btn.delete {
+  background: #f8d7da;
+  color: #c00000;
+}
+.employee-action-btn.delete:hover {
+  background: #c00000;
+  color: #fff;
+}
+
+@media (max-width: 800px) {
+  .employee-details-container {
+    padding: 12px 2px 8px 2px;
+    max-width: 99vw;
+  }
+  .employee-details-title {
+    font-size: 1.2rem;
+  }
+  .employee-table th, .employee-table td {
+    padding: 7px 4px;
+    font-size: 0.95rem;
+  }
+  .employee-add-btn, .employee-action-btn {
+    font-size: 0.95rem;
+    padding: 7px 10px;
+  }
+} 
+
+
+
+/* Fade-in animation for table rows */
+.fade-in-row {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Optional: table hover effect */
+.employee-table tbody tr:hover {
+  background-color: #f1f7ff;
+}
+
+
+/* Spinner animation */
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #4a90e2;
+  animation: spin 1s linear infinite;
+  margin: 50px auto; /* Center the spinner */
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+
+
