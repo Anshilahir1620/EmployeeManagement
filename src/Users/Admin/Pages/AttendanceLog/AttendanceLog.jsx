@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../common/Alert';
 import '../../assets/css/Employee.css';
+import '../../assets/css/Employee.css'
 
 const AttendanceLogList = () => {
   const [logs, setLogs] = useState([]);

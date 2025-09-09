@@ -1,0 +1,79 @@
+/* components/assets/style/MainLayout.css */
+
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+.main-layout__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+}
+
+.main-layout__content--shifted {
+  margin-left: 250px;
+}
+
+.main-layout__main {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  min-height: calc(100vh - 60px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-layout__content--shifted {
+    margin-left: 0;
+  }
+  
+  .main-layout__main {
+    padding: 15px;
+    min-height: calc(100vh - 60px);
+  }
+}
+
+@media (max-width: 480px) {
+  .main-layout__main {
+    padding: 10px;
+  }
+}
+
+/* Smooth transitions for all layout changes */
+.main-layout * {
+  box-sizing: border-box;
+}
+
+/* Ensure proper stacking context */
+.main-layout__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Handle sidebar overlay on mobile */
+@media (max-width: 768px) {
+  .main-layout__content::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .main-layout__content--shifted::before {
+    opacity: 1;
+    visibility: visible;
+  }
+}

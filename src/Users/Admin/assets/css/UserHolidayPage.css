@@ -1,0 +1,73 @@
+/* Hero section */
+.hero-section {
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+  animation: slideDown 0.8s ease-out;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  animation: fadeIn 1s ease-in;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Month title */
+.month-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  border-left: 5px solid #007bff;
+  padding-left: 10px;
+  color: #333;
+}
+
+/* Grid layout */
+.holiday-grid {
+
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Card styling */
+.holiday-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 15px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.holiday-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

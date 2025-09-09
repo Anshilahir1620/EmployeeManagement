@@ -1,0 +1,94 @@
+/* Header container */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  padding: 12px 20px;
+  color: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Sidebar toggle button */
+.header__toggle-button {
+  font-size: 1.5rem;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.header__toggle-button:hover {
+  transform: rotate(90deg);
+}
+
+/* Title */
+.header__title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Right section */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* User info */
+.header__user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.header__user-icon {
+  font-size: 1.3rem;
+}
+
+/* Logout button */
+.logout-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 25px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effects */
+.logout-btn:hover {
+  background: linear-gradient(135deg, #e84118, #ff3f34);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(255, 71, 87, 0.6);
+}
+
+/* Ripple animation */
+.logout-btn::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+}
+
+.logout-btn:active::after {
+  width: 250%;
+  height: 250%;
+}

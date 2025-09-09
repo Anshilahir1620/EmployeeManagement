@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import axios from 'axios';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { FaUsers, FaBuilding, FaRegCalendarCheck, FaClipboardList, FaUserPlus, FaCheckCircle, FaEdit } from "react-icons/fa";
-import "./../assets/css/Dashboard.css";
+import "../../Admin/assets/css/Dashboard.css";
 
 import {
   Container,

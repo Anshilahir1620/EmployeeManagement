@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./../assets/css/Sidebar.css";
+import "../assets/css/Sidebar.css";
 import logo from "../assets/images/fitrace.png";
+
+//fitrace.png
 
 export default function Sidebar({ isOpen, isMobile, onClose }) {
   const location = useLocation();

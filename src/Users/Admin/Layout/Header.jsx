@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./../assets/css/Header.css";
+import "../assets/css/Header.css";
 
 export default function Header({ scrolled = false, isMobile = false }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
